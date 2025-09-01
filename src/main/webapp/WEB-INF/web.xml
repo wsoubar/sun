@@ -1,111 +1,31 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<web-app id="WebApp_ID" version="3.0"
-         xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
+<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN" "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
-    <display-name>Sun-web-app</display-name>
+<web-app>
+    <display-name>Struts2 Spring3 Integration</display-name>
 
-    <!-- SPRING (padrão) -->
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <!-- Onde estão seus arquivos de contexto Spring -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
             /WEB-INF/applicationContext.xml
-            <!-- se houver mais, separe por espaço ou nova linha -->
-            <!-- /WEB-INF/spring/*.xml -->
         </param-value>
     </context-param>
 
-    <!-- LOGBACK: MDC para request info -->
-    <filter>
-        <filter-name>MDCInsertingServletFilter</filter-name>
-        <filter-class>ch.qos.logback.classic.helpers.MDCInsertingServletFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>MDCInsertingServletFilter</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <!-- SPRING: associa o contexto à thread/request -->
-    <filter>
-        <filter-name>spring-request</filter-name>
-        <filter-class>org.springframework.web.filter.RequestContextFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>spring-request</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <!-- SITEMESH (decoração de páginas) -->
-    <filter>
-        <filter-name>sitemesh</filter-name>
-        <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>sitemesh</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <!-- STRUTS 2 (padrão): prepara e executa as actions -->
-    <!-- Para Struts 2.5+: org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter
-         Para Struts 2.3.x: org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter -->
     <filter>
         <filter-name>struts2</filter-name>
         <filter-class>org.apache.struts2.dispatcher.filter.StrutsPrepareAndExecuteFilter</filter-class>
     </filter>
+
     <filter-mapping>
         <filter-name>struts2</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <!-- APACHE CXF: serviços em /service/* -->
-    <servlet>
-        <servlet-name>CXFServlet</servlet-name>
-        <servlet-class>org.apache.cxf.transport.servlet.CXFServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>CXFServlet</servlet-name>
-        <url-pattern>/service/*</url-pattern>
-    </servlet-mapping>
-
-    <!-- Páginas iniciais -->
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
-
-    <!-- Taglibs necessárias -->
-    <jsp-config>
-        <taglib>
-            <taglib-uri>http://www.opensymphony.com/sitemesh/decorator</taglib-uri>
-            <taglib-location>META-INF/sitemesh-decorator.tld</taglib-location>
-        </taglib>
-        <taglib>
-            <taglib-uri>http://www.opensymphony.com/sitemesh/page</taglib-uri>
-            <taglib-location>META-INF/sitemesh-page.tld</taglib-location>
-        </taglib>
-        <taglib>
-            <taglib-uri>/struts-tags</taglib-uri>
-            <taglib-location>META-INF/struts-tags.tld</taglib-location>
-        </taglib>
-        <!-- Removido: /bsad-tags -->
-    </jsp-config>
-
-    <!-- Config do SiteMesh -->
-    <context-param>
-        <param-name>sitemesh.configfile</param-name>
-        <param-value>/WEB-INF/conf/sitemesh/sitemesh.xml</param-value>
-    </context-param>
-
-    <!-- JNDI do DataSource no WAS -->
-    <resource-env-ref>
-        <resource-env-ref-name>jdbc/dsApplication</resource-env-ref-name>
-        <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
-    </resource-env-ref>
 
 </web-app>
